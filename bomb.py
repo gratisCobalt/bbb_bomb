@@ -17,9 +17,8 @@ import random
 class bomb():
     def __init__(self):
         options = webdriver.ChromeOptions()
-        options.add_experimental_option(
-            "excludeSwitches", ["ignore-certificate-errors"])
-        self.driver = webdriver.Chrome(options=options)
+        options.add_experimental_option("excludeSwitches", ["ignore-certificate-errors"])
+        self.driver = webdriver.Chrome('./chromedriver.exe', options=options)
         self.driver.maximize_window()
 
     def run(self):
