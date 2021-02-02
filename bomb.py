@@ -37,9 +37,10 @@ class bomb():
         audio_path = str(obj['audio_path'])
         site_url = str(obj['site_url'])
         audio_device_name = str(obj['audio_device_name'])
+        play_audio_from_file = (obj['play_audio_from_file'])
+        write_text_to_chat = (obj['write_text_to_chat'])
+        volume = 1 # float(obj['volume'])
         usernames = list(obj['usernames'])
-        play_audio_from_file = str(obj['play_audio_from_file'])
-        write_text_to_chat = str(obj['write_text_to_chat'])
 
         self.driver.get(site_url)
 
@@ -47,7 +48,7 @@ class bomb():
         [get_audio_device_name(x, 0).decode() for x in range(get_num_audio_devices(0))]
         mixer.init(devicename=audio_device_name)
         mixer.music.load(audio_path)
-        mixer.music.set_volume(0.5)
+        mixer.music.set_volume(volume)
 
         # check if step is alredy done
         join_name = True
@@ -58,6 +59,10 @@ class bomb():
         muted = True
 
         random_string = ''
+        
+        if (play_audio_from_file):
+                mixer.music.play(loops=-1)  # infinite loop
+
         while (True):
             for _ in range(50):
                 random_integer = random.randint(97, 97 + 26 - 1)
@@ -99,9 +104,6 @@ class bomb():
                             break
                         except Exception:
                             pass
-
-            if (play_audio_from_file):
-                mixer.music.play(loops=-1)  # infinite loop
 
             while (muted):
                 try:
