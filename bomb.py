@@ -17,8 +17,19 @@ from time import sleep
 import random
 import json
 
+
 class bomb():
     def __init__(self):
+        print(
+            "__          ______ ____        _                       ____  _                 _       ___       _         \n"
+            "\ \        / /___ \___ \      | |                     |___ \| |               | |     / _ \     | |        \n"
+            " \ \  /\  / /  __) |__) | __ _| |_ __ _ _ __ __ ___   ____) | | __ _ _ __   __| |_ __| | | | ___| | _____  \n"
+            "  \ \/  \/ /  |__ <|__ < / _` | __/ _` | '__/ _` \ \ / /__ <| |/ _` | '_ \ / _` | '__| | | |/ __| |/ / __| \n"
+            "   \  /\  /   ___) |__) | (_| | || (_| | | | (_| |\ V /___) | | (_| | | | | (_| | |  | |_| | (__|   <\__ \ \n"
+            "    \/  \/   |____/____/ \__,_|\__\__, |_|  \__,_| \_/|____/|_|\__,_|_| |_|\__,_|_|   \___/ \___|_|\_\___/ \n"
+            "                                   __/ |                                                                   \n"
+            "                                  |___/                                                                    \n"
+        )
         options = webdriver.ChromeOptions()
         options.add_experimental_option('excludeSwitches', ['--ignore-certificate-errors=yes', '--web-security=no', '--ssl-protocol=any'])
         self.driver = webdriver.Chrome(options=options)
@@ -35,13 +46,14 @@ class bomb():
         play_audio_from_file = str(obj['play_audio_from_file'])
 
         self.driver.get(site_url)
-        
-        mixer.init() # music player
-        [get_audio_device_name(x, 0).decode() for x in range(get_num_audio_devices(0))]
+
+        mixer.init()  # music player
+        [get_audio_device_name(x, 0).decode()
+         for x in range(get_num_audio_devices(0))]
         mixer.init(devicename=audio_device_name)
         mixer.music.load(audio_path)
         mixer.music.set_volume(0.1)
-        mixer.music.play(loops=-1) # infinite loop
+        mixer.music.play(loops=-1)  # infinite loop
 
         # check if step is alredy done
         join_name = True
@@ -60,7 +72,7 @@ class bomb():
                     random_string += (chr(random_integer))
 
                 while (join_name):
-                    join_input = self.driver.find_element_by_xpath('/html/body/div[2]/div[1]/div/div[2]/div[2]/form/div/input[4]') # name input
+                    join_input = self.driver.find_element_by_xpath('/html/body/div[2]/div[1]/div/div[2]/div[2]/form/div/input[4]')  # name input
                     join_input.clear()
                     join_input.send_keys(random.choice(usernames))
                     join_name = False
@@ -73,24 +85,25 @@ class bomb():
 
                 while (audio):
                     if (play_audio_from_file and join_with_audio):
-                        self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div[1]/div/div/span/button[1]/span[1]/i').click() # join with mic
+                        self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div[1]/div/div/span/button[1]/span[1]/i').click()  # join with mic
                         join_with_audio = False
                         while (audio_thumb):
-                            self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div[1]/div/span/button[1]/span[1]/i').click() # thumbs up audiotest
+                            self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div[1]/div/span/button[1]/span[1]/i').click()  # thumbs up audiotest
                             audio_thumb = False
                             break
                     if (not play_audio_from_file and join_with_audio):
-                        self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div[1]/div/div/span/button[2]/span[1]/i').click() # join without mic
+                        self.driver.find_element_by_xpath('/html/body/div[2]/div/div/div[1]/div/div/span/button[2]/span[1]/i').click()  # join without mic
                         join_with_audio = False
                     audio = False
                     break
 
-                text_send = self.driver.find_element_by_xpath('//*[@id="message-input"]') # chat input 
+                text_send = self.driver.find_element_by_xpath('//*[@id="message-input"]')  # chat input
                 text_send.clear()
                 text_send.send_keys(random_string)
 
-                self.driver.find_element_by_xpath('/html/body/div/main/section/div[4]/section/div/form/div[1]/button/span[1]/i').click() # chat send button
+                self.driver.find_element_by_xpath('/html/body/div/main/section/div[4]/section/div/form/div[1]/button/span[1]/i').click()  # chat send button
             except Exception:
                 pass
+
 
 bomb().run()
