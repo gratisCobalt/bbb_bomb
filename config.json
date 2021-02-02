@@ -1,0 +1,25 @@
+{
+    "audio_path": "audio.mp3",
+    "site_url": "https://classroom.lgs.digital/b/",
+    "audio_device_name": "CABLE Input (VB-Audio Virtual Cable)",
+    "play_audio_from_file": true,
+    "usernames": [
+        "Andy Stohler",
+        "Dominik Hein",
+        "Beatrice Velikova",
+        "David Tran",
+        "Edgar Fröscher",
+        "Felix Hauptmann",
+        "Jan Heilmann",
+        "Jaro Filip",
+        "Jeromy Zimmer",
+        "Kevin Malkin",
+        "Leon Amend",
+        "Lukas Kemmerer",
+        "Mika Savic",
+        "Mirko Weih",
+        "Norman Stapf",
+        "Sidar Acar",
+        "Timothy Schwarz"
+    ]
+}
