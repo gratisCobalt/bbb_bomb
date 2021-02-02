@@ -11,7 +11,7 @@ Function Add-PathVariable {
         Throw "'$addPath' is not a valid path."
     }
 }
-$release = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_87"
-Invoke-WebRequest -OutFile "./chromedriver_win32.zip" "https://chromedriver.storage.googleapis.com/index.html?path=$release/"
-Unzip "./chromedriver_win32.zip" "./chromdriver"
-Remove-Item "./chromedriver_win32.zip"
+Invoke-WebRequest -OutFile "./VBCABLE_Driver_Pack43.zip" "https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip"
+Unzip "./VBCABLE_Driver_Pack43.zip" "./VBCABLE_Driver_Pack43"
+Remove-Item "./VBCABLE_Driver_Pack43.zip"
+Add-PathVariable($PSScriptRoot + "/chromedriver")
