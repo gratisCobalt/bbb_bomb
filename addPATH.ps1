@@ -11,4 +11,7 @@ Function Add-PathVariable {
         Throw "'$addPath' is not a valid path."
     }
 }
-Add-PathVariable($PSScriptRoot + "/chromedriver")
+$release = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_87"
+Invoke-WebRequest -OutFile "./chromedriver_win32.zip" "https://chromedriver.storage.googleapis.com/index.html?path=$release/"
+Unzip "./chromedriver_win32.zip" "./chromdriver"
+Remove-Item "./chromedriver_win32.zip"
