@@ -5,3 +5,6 @@ Just run the 'run.bat'
 # Requirements
 - Google Chrome Browser
 - Python
+
+# Troubleshoot
+If the your Chrome Browser doesn't support the chromedriver try using another 'chromedriver_8X.exe'
