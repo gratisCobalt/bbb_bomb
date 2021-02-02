@@ -6,4 +6,4 @@ After that finished you can run the 'run.bat'
 # Requirements
 - Google Chrome Browser
 - Python
-- VB-Cable (https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip)
+- VB-Cable (https://download.vb-audio.com/Download_CABLE/)
