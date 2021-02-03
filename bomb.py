@@ -11,7 +11,6 @@ __          ______ ____        _                       ____  _                 _
 import glob
 import json
 import random
-import warnings
 from time import sleep
 
 from pygame import mixer
@@ -19,9 +18,7 @@ from pygame._sdl2 import get_audio_device_name, get_num_audio_devices
 from selenium import webdriver
 from selenium.webdriver.common import actions
 from selenium.webdriver.common.keys import Keys
-
-import logo
-
+from logo import print_logo
 
 class bomb():
 
@@ -32,8 +29,6 @@ class bomb():
     audio_path = ''
     site_url = ''
     audio_device_name = ''
-    play_audio_from_file = False
-    write_text_to_chat = False
     volume = 0
     usernames = []
 
@@ -56,13 +51,15 @@ class bomb():
         b.read_json()
         self.driver.get(b.site_url)
         b.random_string = b.get_random_string()
-        b.init_musicplayer()
         
         while (True):
             b.join_room()
             b.accept_audio()
-            b.unmute()
-            b.chat()
+            b.init_musicplayer()
+
+            # b.play_audio()
+            # b.unmute()
+            # b.chat()
 
     def read_json(self):
         with open('./config.json') as f:
@@ -72,8 +69,6 @@ class bomb():
         b.audio_path = str(obj['audio_path'])
         b.site_url = str(obj['site_url'])
         b.audio_device_name = str(obj['audio_device_name'])
-        b.play_audio_from_file = (obj['play_audio_from_file'])
-        b.write_text_to_chat = (obj['write_text_to_chat'])
         b.volume = int(obj['volume'])
         b.usernames = list(obj['usernames'])
 
@@ -109,9 +104,6 @@ class bomb():
         mixer.init(devicename=b.audio_device_name)
         mixer.music.load(random.choice(glob.glob(b.audio_path)))
         mixer.music.set_volume(b.volume)
-
-        if (b.play_audio_from_file):
-            mixer.music.play(loops=-1)  # infinite loop
 
     def accept_audio(self):
         while (b.audio):
@@ -151,6 +143,12 @@ class bomb():
             text_send.send_keys(random_string)
             self.driver.find_element_by_xpath('/html/body/div/main/section/div[4]/section/div/form/div[1]/button/span[1]/i').click()  # chat send button
 
-logo.print_logo()
+    def play_audio(self):
+        mixer.music.play(loops=-1)  # infinite loop
+
+    def exit_bot(self):
+        self.driver.quit()
+
+print_logo()
 b = bomb()
 b.run()

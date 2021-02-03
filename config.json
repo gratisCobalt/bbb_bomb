@@ -2,8 +2,6 @@
     "audio_path": "./music/*.mp3",
     "site_url": "https://classroom.lgs.digital/b/",
     "audio_device_name": "CABLE Input (VB-Audio Virtual Cable)",
-    "play_audio_from_file": true,
-    "write_text_to_chat": false,
     "volume": 1, 
     "usernames": [
         "list of names",
