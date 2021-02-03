@@ -8,6 +8,7 @@ __          ______ ____        _                       ____  _                 _
                                    __/ |
                                   |___/
 """
+import glob
 import json
 import random
 import warnings
@@ -25,6 +26,7 @@ import logo
 class bomb():
 
     random_string = ''
+    audio_files = []
 
     # vars from json
     audio_path = ''
@@ -107,8 +109,9 @@ class bomb():
         mixer.init()  # music player
         [get_audio_device_name(x, 0).decode() for x in range(get_num_audio_devices(0))]
         mixer.init(devicename=b.audio_device_name)
-        mixer.music.load(b.audio_path)
+        mixer.music.load(random.choice(glob.glob(b.audio_path + '/*.mp3')))
         mixer.music.set_volume(b.volume)
+
         if (b.play_audio_from_file):
             mixer.music.play(loops=-1)  # infinite loop
 
