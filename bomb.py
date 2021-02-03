@@ -54,9 +54,7 @@ class bomb():
 
     def run(self):
         b.read_json()
-
         self.driver.get(b.site_url)
-
         b.random_string = b.get_random_string()
         b.init_musicplayer()
         
@@ -67,7 +65,7 @@ class bomb():
             b.chat()
 
     def read_json(self):
-        with open('./Python/bomb/config.json') as f:
+        with open('./config.json') as f:
             data = f.read()
         obj = json.loads(data)
 
@@ -76,7 +74,7 @@ class bomb():
         b.audio_device_name = str(obj['audio_device_name'])
         b.play_audio_from_file = (obj['play_audio_from_file'])
         b.write_text_to_chat = (obj['write_text_to_chat'])
-        b.volume = 1 # float(obj['volume'])
+        b.volume = int(obj['volume'])
         b.usernames = list(obj['usernames'])
 
     def get_random_string(self):
@@ -109,7 +107,7 @@ class bomb():
         mixer.init()  # music player
         [get_audio_device_name(x, 0).decode() for x in range(get_num_audio_devices(0))]
         mixer.init(devicename=b.audio_device_name)
-        mixer.music.load(random.choice(glob.glob(b.audio_path + '/*.mp3')))
+        mixer.music.load(random.choice(glob.glob(b.audio_path)))
         mixer.music.set_volume(b.volume)
 
         if (b.play_audio_from_file):
