@@ -19,6 +19,7 @@ from selenium import webdriver
 from selenium.webdriver.common import actions
 from selenium.webdriver.common.keys import Keys
 from logo import print_logo
+import string
 
 class bomb():
 
@@ -30,8 +31,7 @@ class bomb():
     bot_quit_now = False
     bot_chat = False
     bot_play_audio = False
-    bot_unmute = False
-    bot_mute = not bot_unmute
+    bot_muted = True
 
     audio_path = ''
     site_url = ''
@@ -58,6 +58,7 @@ class bomb():
 
         b.read_json()
         self.driver.get(b.site_url)
+        b. random_string = b.get_random_string()
         b.init_musicplayer()
         b.bot_chat = True
 
@@ -69,12 +70,14 @@ class bomb():
                 quit()
             if b.bot_play_audio:
                 b.play_audio()
+            if b.greeting:
+                b.chat()
             if b.bot_chat:
                 b.chat()
-            if not b.mute:
-                b.mute()
-            if b.unmute():
+            if not b.bot_muted:
                 b.unmute()
+            if b.bot_muted:
+                b.mute()
 
             b.read_json()
             sleep(1)
@@ -119,7 +122,7 @@ class bomb():
     def unmute(self):
         try:
             mute_btn = self.driver.find_element_by_xpath('/html/body/div/main/section/div[1]/section[2]/div/div[2]/span/button[1]/span[1]/i') # mute button
-            if (b.bot_unmute and not 'unmute' in mute_btn.get_attribute('class')):
+            if (not b.bot_muted and 'unmute' in mute_btn.get_attribute('class')):
                 mute_btn.click()
         except Exception:
             pass
@@ -127,36 +130,36 @@ class bomb():
     def mute(self):
         try:
             mute_btn = self.driver.find_element_by_xpath('/html/body/div/main/section/div[1]/section[2]/div/div[2]/span/button[1]/span[1]/i') # mute button
-            if (not b.bot_unmute and 'unmute' in mute_btn.get_attribute('class')):
+            if (b.bot_muted and not 'unmute' in mute_btn.get_attribute('class')):
                 mute_btn.click()
         except Exception:
             pass
-
+    
     def chat(self):
-        try:
-            b.random_string = b.get_random_string()
-            text_send = self.driver.find_element_by_xpath('//*[@id="message-input"]')  # chat input
-            text_send.clear()
-            if (b.greeting):
-                text_send.send_keys(random.choice(greetings))
-                b.greeting = False
-                b.bot_chat = False
-            else:
-                text_send.send_keys(random_string)
-            self.driver.find_element_by_xpath('/html/body/div/main/section/div[4]/section/div/form/div[1]/button/span[1]/i').click()  # chat send button
-        except Exception:
-            pass
+        for i in range(1,10):
+            try:
+                text_send = self.driver.find_element_by_xpath('//*[@id="message-input"]')  # chat input
+                text_send.clear()
+                if (b.greeting):
+                    text_send.send_keys(random.choice(b.greetings))
+                    b.greeting = False
+                else:
+                    text_send.send_keys(b.random_string)
+                self.driver.find_element_by_xpath('/html/body/div/main/section/div[4]/section/div/form/div[1]/button/span[1]/i').click()  # chat send button
+                break
+            except Exception:
+                pass
 
     def play_audio(self): # play the .mp3
-        mixer.music.play(loops=-1)  # infinite loop
-        b.bot_play_audio = False
+        if (b.bot_play_audio):
+            if (not mixer.get_busy()): # check if sound is already playing
+                sleep(1)
+                mixer.music.play(loops=0)  # -1 infinity loop
+            
 
     def get_random_string(self): # for chat messages
-        for _ in range(20):
-            random_integer = random.randint(97, 97 + 26 - 1)
-            flip_bit = random.randint(0, 1)
-            random_integer = random_integer - 32 if flip_bit == 1 else random_integer
-            b.random_string += (chr(random_integer))
+        letters = string.ascii_lowercase
+        return ''.join(random.choice(letters) for i in range(20))
 
     def init_musicplayer(self): # get musicplayer ready
         mixer.init()
@@ -171,12 +174,11 @@ class bomb():
         obj = json.loads(data)
 
         # these will be updated every few seconds
-        b.bot_join_now = bool(obj['bot_join_now'])
-        b.bot_quit_now = bool(obj['bot_quit_now'])
+        b.bot_join_now = bool(obj['bot_join'])
+        b.bot_quit_now = bool(obj['bot_quit'])
         b.bot_chat = bool(obj['bot_chat'])
         b.bot_play_audio = bool(obj['bot_play_audio'])
-        b.bot_unmute = bool(obj['bot_unmute'])
-        b.bot_mute = not b.bot_unmute
+        b.bot_muted = bool(obj['bot_muted'])
 
         if (b.update): # only get these vars once
             b.audio_path = str(obj['audio_path'])

@@ -8,54 +8,61 @@ __          ______ ____        _                       ____  _                 _
                                    __/ |
                                   |___/
 """
-import logo
+from logo import print_logo
 import json
 import os
 from time import sleep
 
 def init_listener():
+    print_logo()
     print('Type \'help\' to get help')
     while (True):
         user_input = input('$ ')
         if (user_input == 'help'):
             print(
-                '\'join\':   The bot will join the conference.\n'
-                '\'stop\':   The program will stop.\n'
-                '\'chat\':   The bot will start to chat. (spam random stuff)\n'
-                '\'play\':   The bot will play a random file in your music folder.\n'
-                # '\'mute\':   The bot will mute himself (NOT SUPPORTED!)\n'
-                '\'unmute\': The bot will unmute himself\n'
+                '\'join\':   Join the conference.\n'
+                '\'quit\':   Quit the program and bot.\n'
+                '\'chat start\':   Start spamming the chat. (spam random stuff)\n'
+                '\'chat stop\':   Stop spamming the chat. (spam random stuff)\n'
+                '\'music play\':   Play a random .mp3 file in your music folder.\n'
+                '\'music stop\':   Stop playing sounds\n'
+                '\'mute\':   The bot will mute\n'
+                '\'unmute\': The bot will unmute\n'
             )
 
         elif (user_input == 'join'):
             print('Joining the conference...')
-            update_json('bot_join_now', True)
+            update_json('bot_join', True)
 
-        elif (user_input == 'stop'):
+        elif (user_input == 'quit'):
             print('Stopping bot...')
-            update_json('bot_quit_now', True)
+            update_json('bot_quit', True)
             sleep(3)
             exit()
 
-        elif (user_input == 'chat'):
-            print('Spamming the chat...')
+        elif (user_input == 'chat start'):
+            print('Start chatting...')
             update_json('bot_chat', True)
 
-        elif (user_input == 'stop chat'):
-            print('Stopping spam...')
+        elif (user_input == 'chat stop'): # TODO
+            print('Stop chatting...')
             update_json('bot_chat', False)
 
-        elif (user_input == 'play'):
+        elif (user_input == 'music play'):
             print('Playing audio...')
             update_json('bot_play_audio', True)
 
+        elif (user_input == 'music stop'):
+            print('Stopping audio...')
+            update_json('bot_play_audio', False)
+
         elif (user_input == 'mute'):
             print('muting...')
-            update_json('bot_mute', False)
+            update_json('bot_muted', False)
             
         elif (user_input == 'unmute'):
             print('unmuting...')
-            update_json('bot_unmute', True)
+            update_json('bot_muted', True)
 
         else:
             print('Unknown command!')

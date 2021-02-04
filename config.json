@@ -1,10 +1,10 @@
 {
-    "bot_join_now": false,
-    "bot_quit_now": false,
+    "bot_join": false,
+    "bot_quit": false,
     "bot_chat": false,
     "bot_play_audio": false,
-    "bot_unmute": false,
-    "bot_mute": true,
+    "bot_muted": false,
+
     "audio_path": "music/*.mp3",
     "site_url": "https://classroom.lgs.digital/b/reg-n1e-ghh-d9s",
     "audio_device_name": "CABLE Input (VB-Audio Virtual Cable)",
