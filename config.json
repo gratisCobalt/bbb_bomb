@@ -1,10 +1,25 @@
 {
-    "audio_path": "./music/*.mp3",
-    "site_url": "https://classroom.lgs.digital/b/",
+    "bot_join_now": false,
+    "bot_quit_now": false,
+    "bot_chat": false,
+    "bot_play_audio": false,
+    "bot_unmute": false,
+    "bot_mute": true,
+    "audio_path": "music/*.mp3",
+    "site_url": "https://classroom.lgs.digital/b/reg-n1e-ghh-d9s",
     "audio_device_name": "CABLE Input (VB-Audio Virtual Cable)",
-    "volume": 1, 
+    "volume": 1,
+    "greetings": [
+        "moin",
+        "moin moin",
+        "servus",
+        "morgen",
+        "guten morgen",
+        "Guten Morgen",
+        "hallo",
+        ""
+    ],
     "usernames": [
-        "list of names",
-        "list of names"
+        "initiator"
     ]
 }

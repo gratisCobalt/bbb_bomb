@@ -8,34 +8,67 @@ __          ______ ____        _                       ____  _                 _
                                    __/ |
                                   |___/
 """
-from pynput import keyboard
 import logo
-import bomb as b
+import json
+import os
+from time import sleep
 
-def on_press(key):
-    if key == keyboard.Key.esc:
-        return False  # stop listener
+def init_listener():
+    print('Type \'help\' to get help')
+    while (True):
+        user_input = input('$ ')
+        if (user_input == 'help'):
+            print(
+                '\'join\':   The bot will join the conference.\n'
+                '\'stop\':   The program will stop.\n'
+                '\'chat\':   The bot will start to chat. (spam random stuff)\n'
+                '\'play\':   The bot will play a random file in your music folder.\n'
+                # '\'mute\':   The bot will mute himself (NOT SUPPORTED!)\n'
+                '\'unmute\': The bot will unmute himself\n'
+            )
 
-    try:
-        k = key.char  # single-char keys
-    except:
-        k = key.name  # other keys
+        elif (user_input == 'join'):
+            print('Joining the conference...')
+            update_json('bot_join_now', True)
 
-    if k in ['up', 'down', 'left', 'right']:  # keys of interest
-        # self.keys.append(k)  # store it in global-like variable
-        if (k == 'up'):
-            print('UNMUTE')
-            b.unmute()
-        elif (k == 'down'):
-            print('PLAY MUSIC')
-            b.play_audio()
-        elif (k == 'left'):
-            print('CHAT')
-            b.chat()
-        elif (k == 'right'):
-            print('EXIT BOT')
-            b.exit_bot()
+        elif (user_input == 'stop'):
+            print('Stopping bot...')
+            update_json('bot_quit_now', True)
+            sleep(3)
+            exit()
 
-listener = keyboard.Listener(on_press=on_press)
-listener.start()  # start to listen on a separate thread
-listener.join()  # remove if main thread is polling self.keys
+        elif (user_input == 'chat'):
+            print('Spamming the chat...')
+            update_json('bot_chat', True)
+
+        elif (user_input == 'stop chat'):
+            print('Stopping spam...')
+            update_json('bot_chat', False)
+
+        elif (user_input == 'play'):
+            print('Playing audio...')
+            update_json('bot_play_audio', True)
+
+        elif (user_input == 'mute'):
+            print('muting...')
+            update_json('bot_mute', False)
+            
+        elif (user_input == 'unmute'):
+            print('unmuting...')
+            update_json('bot_unmute', True)
+
+        else:
+            print('Unknown command!')
+            print('Type \'help\' to get help')
+        
+def update_json(key, value):
+    path_to_json = 'temp_config.json'
+    with open(path_to_json, 'r') as jsonFile:
+        data = json.load(jsonFile)
+
+    data[key] = value
+
+    with open(path_to_json, 'w') as jsonFile:
+        json.dump(data, jsonFile)
+
+init_listener()
