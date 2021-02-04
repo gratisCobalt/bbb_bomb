@@ -64,19 +64,26 @@ class bomb():
 
         while (True):
             if b.bot_join_now:
+                print('[DEBUG] join_room()')
                 b.join_room()
             if b.bot_quit_now:
+                print('[DEBUG] quit()')
                 self.driver.quit()
                 quit()
             if b.bot_play_audio:
+                print('[DEBUG] play_audio()')
                 b.play_audio()
             if b.greeting:
+                print('[DEBUG] chat() (greeting)')
                 b.chat()
             if b.bot_chat:
+                print('[DEBUG] chat() (spamming)')
                 b.chat()
             if not b.bot_muted:
+                print('[DEBUG] unmute (microphone will be MUTED after this)')
                 b.unmute()
             if b.bot_muted:
+                print('[DEBUG] mute (microphone will be UNMUTED after this)')
                 b.mute()
 
             b.read_json()
