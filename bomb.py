@@ -64,28 +64,29 @@ class bomb():
 
         while (True):
             if b.bot_join_now:
-                print('[DEBUG] join_room()')
                 b.join_room()
+                b.log('join_room()')
             if b.bot_quit_now:
-                print('[DEBUG] quit()')
+                b.log('quit()')
                 self.driver.quit()
                 quit()
             if b.bot_play_audio:
-                print('[DEBUG] play_audio()')
                 b.play_audio()
+                b.log('play_audio()')
             if b.greeting:
-                print('[DEBUG] chat() (greeting)')
                 b.chat()
+                b.log('chat() (greeting)')
             if b.bot_chat:
-                print('[DEBUG] chat() (spamming)')
                 b.chat()
+                b.log('chat() (spamming)')
             if not b.bot_muted:
-                print('[DEBUG] unmute (microphone will be MUTED after this)')
                 b.unmute()
+                b.log('unmute() (microphone will be MUTED after this)')
             if b.bot_muted:
-                print('[DEBUG] mute (microphone will be UNMUTED after this)')
                 b.mute()
+                b.log('mute() (microphone will be UNMUTED after this)')
 
+            b.log('read_json()')
             b.read_json()
             sleep(1)
 
@@ -96,6 +97,7 @@ class bomb():
                 join_input.clear()
                 join_input.send_keys(random.choice(b.usernames)) # choose random name from [usernames]
                 b.input_username = False
+                b.log('input username')
                 break
             except Exception:
                 pass
@@ -105,6 +107,7 @@ class bomb():
                 self.driver.find_element_by_xpath('//*[@id="room-join"]').click()  # join room button
                 b.join = False
                 b.audio = True
+                b.log('join room')
                 break
             except Exception:
                 pass
@@ -113,6 +116,7 @@ class bomb():
             try: # accept joining with microphone
                 self.driver.find_element_by_css_selector("body > div.portal--27FHYi > div > div > div.content--IVOUy > div > div > span > button:nth-child(1) > span.label--Z12LMR3").click()  # join with mic
                 b.audio_thumb = True
+                b.log('click \'join with microphone\'')
             except Exception:
                 pass
 
@@ -121,6 +125,7 @@ class bomb():
                     self.driver.find_element_by_css_selector('body > div.portal--27FHYi > div > div > div.content--IVOUy > div > span > button:nth-child(1) > span.label--Z12LMR3').click()  # thumbs up audiotest
                     b.audio_thumb = False
                     b.audio = False
+                    b.log('click thumbs up button')
                     break
                 except Exception:
                     pass
@@ -151,7 +156,7 @@ class bomb():
                     text_send.send_keys(random.choice(b.greetings))
                     b.greeting = False
                 else:
-                    text_send.send_keys(b.random_string)
+                    text_send.send_keys(b.get_random_string())
                 self.driver.find_element_by_xpath('/html/body/div/main/section/div[4]/section/div/form/div[1]/button/span[1]/i').click()  # chat send button
                 break
             except Exception:
@@ -162,18 +167,6 @@ class bomb():
             if (not mixer.get_busy()): # check if sound is already playing
                 sleep(1)
                 mixer.music.play(loops=0)  # -1 infinity loop
-            
-
-    def get_random_string(self): # for chat messages
-        letters = string.ascii_lowercase
-        return ''.join(random.choice(letters) for i in range(20))
-
-    def init_musicplayer(self): # get musicplayer ready
-        mixer.init()
-        [get_audio_device_name(x, 0).decode() for x in range(get_num_audio_devices(0))]
-        mixer.init(devicename=b.audio_device_name)
-        mixer.music.load(random.choice(glob.glob(b.audio_path)))
-        mixer.music.set_volume(b.volume)
 
     def read_json(self): # get values from config.json
         with open('temp_config.json') as f:
@@ -196,6 +189,22 @@ class bomb():
             b.greetings = list(obj['greetings'])
             update = False
 
-print_logo()
+    def get_random_string(self): # for chat messages
+        b.log('get_random_string()')
+        letters = string.ascii_lowercase
+        return ''.join(random.choice(letters) for i in range(20))
+
+    def init_musicplayer(self): # get musicplayer ready
+        mixer.init()
+        [get_audio_device_name(x, 0).decode() for x in range(get_num_audio_devices(0))]
+        mixer.init(devicename=b.audio_device_name)
+        mixer.music.load(random.choice(glob.glob(b.audio_path)))
+        mixer.music.set_volume(b.volume)
+        b.log('init_musicplayer()')
+    
+    def log(self, args):
+        print('[DEBUG] ' + args)
+
+# print_logo()
 b = bomb()
 b.run()
